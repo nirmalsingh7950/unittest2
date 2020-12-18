@@ -22,5 +22,6 @@ jobs:
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1.6
         with:
+          report_individual_runs: "true"
           github_token: ${{ secrets.GITHUB_TOKEN }}
           files: pytest.xml
