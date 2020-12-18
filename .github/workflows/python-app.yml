@@ -5,14 +5,13 @@ name: Python application
 on: [push,pull_request_target]
 jobs:
   build:
-
     runs-on: self-hosted
     steps:
     - uses: actions/checkout@v2
     - name: pytest
       run: |
         python -m pytest tests --junit-xml pytest.xml
-      
+    
   publish-test-report:
     if: always()
     needs: [build]
