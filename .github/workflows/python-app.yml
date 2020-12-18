@@ -7,21 +7,11 @@ jobs:
   build:
 
     runs-on: self-hosted
-    if: >
-      github.event_name == 'push' ||
-      github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository
-
     steps:
     - uses: actions/checkout@v2
     - name: pytest
       run: |
         python -m pytest tests --junit-xml pytest.xml
-    - name: Upload Unit Test Results
-      if: always()
-      uses: actions/upload-artifact@v2
-      with:
-        name: Unit Test Results
-        path: pytest.xml
       
   publish-test-report:
     if: always()
@@ -29,14 +19,9 @@ jobs:
     name: Publish Test Report
     runs-on: self-hosted
     steps:
-      - name: Download Artifacts
-        uses: actions/download-artifact@v2
-        with:
-          path: artifacts
           
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1.6
         with:
-          check_name: Unit Test Results
           github_token: ${{ secrets.GITHUB_TOKEN }}
           files: pytest.xml
