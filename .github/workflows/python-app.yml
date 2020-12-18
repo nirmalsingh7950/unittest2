@@ -13,3 +13,13 @@ jobs:
     - name: Running all test at once
       run: |
         python3 -m unittest discover tests
+  publish-test-report:
+    name: Publish Test Report
+    runs-on: self-hosted
+    steps:
+      - name: Publish Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1.6
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          files: test-reports/*.xml
