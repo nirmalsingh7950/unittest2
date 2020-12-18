@@ -13,6 +13,7 @@ jobs:
     - name: Running all test at once
       run: |
         python3 -m unittest discover tests
+        echo "GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}"
   publish-test-report:
     name: Publish Test Report
     runs-on: self-hosted
