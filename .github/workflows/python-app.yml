@@ -12,7 +12,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Running all test at once
       run: |
-        python3 -m xmlrunner discover tests -o report.xml
+        python3 -m xmlrunner discover tests -o test-reports
         echo "GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}"
   publish-test-report:
     if: always()
@@ -24,4 +24,4 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v1.6
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          files: report.xml
+          files: test-reports/*.xml
