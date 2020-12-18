@@ -1,0 +1,26 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: Python application
+on: [push,pull_request_target]
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+    - uses: actions/checkout@v2
+    - name: pytest
+      run: |
+        python -m pytest tests --junit-xml pytest.xml
+    
+  publish-test-report:
+    if: always()
+    needs: [build]
+    name: Publish Test Report
+    runs-on: self-hosted
+    steps:
+          
+      - name: Publish Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1.6
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          files: pytest.xml
